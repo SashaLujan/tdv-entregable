@@ -1,0 +1,153 @@
+openapi: 3.0.1
+info:
+  title: Random-d.uk
+  description: 'Api para fotos de patos'
+  termsOfService: http://swagger.io/terms/
+  contact:
+    name: Sporte para eliminar imagen
+    email: takedown@random-d.uk
+  license:
+    name: MIT (c) 2022 public-apis
+    url: https://github.com/public-apis/public-apis/blob/master/LICENSE
+  version: 2.0.0
+externalDocs:
+  description: Find out more about Random-d.uk
+  url: https://random-d.uk/
+servers:
+- url: https://random-d.uk/api/v2
+tags:
+- name: Quack
+  description: Here is your duck!
+  externalDocs:
+    description: Find out more
+    url: https://random-d.uk/api
+paths:
+  /random:
+    get:
+      tags:
+      - Quack
+      summary: Returns a link to the random image
+      description: Returns a JSON object containing a link to the random image and an optional attribution message
+      operationId: findRandomDuck
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Duck'
+        500:
+          description: internal server error
+          content: {}
+        404:
+          description: not found
+          content: {}
+  /list:
+    get:
+      tags:
+      - Quack
+      summary: Returns list of Ducks
+      description: Returns a JSON object containing all filenames we have available
+      operationId: findListDucks
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: '#/components/schemas/List'
+        500:
+          description: internal server error
+          content: {}
+        404:
+          description: not found
+          content: {}
+  /http/{code}:
+    get: 
+      tags:
+      - Quack
+      summary: Returns Ducks image file
+      description: Returns an image file of a duck representing an HTTP status code directly (Defining the extension .jpg is not required)
+      operationId: getByCode
+      parameters:
+      - name: "code"
+        in: path
+        description: "codigo web"
+        required: true
+        schema: 
+          type: integer
+          format: "int64"
+      responses:
+        200:
+          description: successful operation
+          content:
+            image/jpeg:
+              schema: 
+                type: string
+                format: binary
+        500:
+          description: internal server error
+          content: {}
+        404:
+          description: not found
+          content: {}
+  /{num}.gif:
+    get: 
+      tags:
+      - Quack
+      summary: Returns Ducks gif
+      description: Returns an gif file directly
+      operationId: getImgGIF
+      parameters:
+      - name: "num"
+        in: "path"
+        description: "numero de gif"
+        required: true
+        schema: 
+          type: integer
+          format: "int64"
+      responses:
+        200:
+          description: successful operation
+          content:
+            image/gif:
+              schema: 
+                type: string
+                format: binary
+        500:
+          description: internal server error
+          content: {}
+        404:
+          description: not found
+          content: {}
+
+components:
+  schemas:
+    Duck:
+      type: object
+      properties:
+        message:
+          type: string
+        url:
+          type: string
+    List:
+      type: object
+      properties:
+        images:
+          type: array
+          items: 
+            type: string
+        gifs:
+          type: array
+          items: 
+            type: string
+        http:
+          type: array
+          items: 
+            type: string
+        image_count:
+          type: integer
+        gif_count: 
+          type: integer
