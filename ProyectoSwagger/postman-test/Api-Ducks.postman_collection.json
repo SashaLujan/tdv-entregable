@@ -1,0 +1,89 @@
+{
+	"info": {
+		"_postman_id": "30df04ff-f98c-4c9e-92e9-47038dd21a32",
+		"name": "Api-Ducks",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get-Random",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"status code is 200\"] = responseCode.code = 200;\r",
+							"\r",
+							"if(responseCode.code = 200){\r",
+							"    var jsonData = JSON.parse(responseBody);\r",
+							"    tests[\"mensaje es igual a 'Powered by random-d.uk'\"] = responseCode.message = \"Powered by random-d.uk\";\r",
+							"    tests[\"content url\"] = responseCode.url != \"\";\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://random-d.uk/api/v2/random",
+					"protocol": "https",
+					"host": [
+						"random-d",
+						"uk"
+					],
+					"path": [
+						"api",
+						"v2",
+						"random"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get-List",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"GET-list status code is 200\"] = responseCode.code = 200;\r",
+							"\r",
+							"if(responseCode.code = 200){\r",
+							"    var jsonData = JSON.parse(responseBody);\r",
+							"    tests[\"trajo datos\"] = jsonData != null;\r",
+							"    tests[\"gif_count es igaul a 57\"] = responseCode.gif_count = 57;\r",
+							"    tests[\"image_count es igaul a 282\"] = responseCode.image_count = 282;\r",
+							"}\r",
+							"pm.test(\"Content-Type is present\", function () {\r",
+							"    pm.response.to.have.header(\"Content-Type\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://random-d.uk/api/v2/list",
+					"protocol": "https",
+					"host": [
+						"random-d",
+						"uk"
+					],
+					"path": [
+						"api",
+						"v2",
+						"list"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
